@@ -1,0 +1,8 @@
+prefix: '$'
+version: 1.0.0
+
+embed:
+  colour: 0xf05f19
+  footer:
+    text: 'Swiftbot | Programmed by Jelly#6161'
+    url: 'https://i.imgur.com/YKk91VU.png'

@@ -1,0 +1,4 @@
+SwiftBot/bot.yml
+venv/*
+.idea/*
+__pycache__/*
