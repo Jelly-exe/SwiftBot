@@ -1,15 +1,15 @@
-import copy
 import os
-import time
 
 import yaml
 
 import discord
 from discord.ext import commands
-from SwiftBot.Utils import colours
+
+import Utils.classes
+from Utils import colours
 from datetime import datetime
 
-from SwiftBot.Utils.classes import NoPermission
+from Utils.classes import NoPermission
 
 
 class SwiftBot(commands.Bot):
@@ -32,8 +32,8 @@ class SwiftBot(commands.Bot):
         intents.presences = True
 
         print(f'{colours.OKGREEN}{self._displayStep()}. Reading configs\'s')
-        self.bot = yaml.load(open("./bot.yml", "r"), Loader=yaml.FullLoader)
-        self.config = yaml.load(open("./config.yml", "r"), Loader=yaml.FullLoader)
+        self.bot = yaml.load(open("bot.yml", "r"), Loader=yaml.FullLoader)
+        self.config = yaml.load(open("config.yml", "r"), Loader=yaml.FullLoader)
 
         print(f'{colours.OKGREEN}{self._displayStep()}. Initializing the bot')
         super().__init__(command_prefix=self.config["prefix"],
@@ -44,6 +44,7 @@ class SwiftBot(commands.Bot):
                          allowed_mentions=allowed_mentions,
                          description=description,
                          case_insensitive=True)
+        self.persistent_views_added = False
 
         print(f'{colours.OKGREEN}{self._displayStep()}. Setting the boot time')
         self.boot = datetime.now()
@@ -54,7 +55,7 @@ class SwiftBot(commands.Bot):
         self._loadCogs()
 
     def _loadCogs(self):
-        for i in os.listdir('./Cogs'):
+        for i in os.listdir('Cogs'):
             if i.endswith('.py'):
                 try:
                     self.load_extension(f'Cogs.{i[:-3]}')
@@ -76,6 +77,10 @@ class SwiftBot(commands.Bot):
         return self.step
 
     async def on_ready(self):
+        if not self.persistent_views_added:
+            self.add_view(Utils.classes.PersistentView())
+            self.persistent_views_added = True
+
         print(f'{colours.OKCYAN}~~~~~~~~~~~~~')
         print(f'{colours.OKCYAN}Logged in as - ')
         print(f'{colours.OKCYAN}Name: {self.user.name}')

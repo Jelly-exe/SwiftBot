@@ -4,7 +4,7 @@ import time
 import discord
 from discord.ext import commands
 
-from SwiftBot.Utils.classes import Command, Group
+from Utils.classes import Command, Group
 
 
 class BasicAdminCommands(commands.Cog):

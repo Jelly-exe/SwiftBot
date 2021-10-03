@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from SwiftBot.Utils.classes import Command
+from Utils.classes import Command
 
 
 class BasicCommands(commands.Cog):
