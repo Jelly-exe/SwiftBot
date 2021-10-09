@@ -62,7 +62,7 @@ class Dropdown(discord.ui.Select):
             discord.SelectOption(label='Sea of Thieves', description='Add or remove the sea of thieves role', emoji='🦜'),
             discord.SelectOption(label='Elder', description='Add or remove the elder role', emoji='❤')
         ]
-        super().__init__(placeholder='Select role...', min_values=1, max_values=1, options=options)
+        super().__init__(placeholder='Select role...', min_values=1, max_values=1, options=options, custom_id='menu:roles')
 
     async def callback(self, interaction: discord.Interaction):
         role = discord.utils.get(interaction.guild.roles, id=self.roles[self.values[0]])
