@@ -79,6 +79,7 @@ class SwiftBot(commands.Bot):
     async def on_ready(self):
         if not self.persistent_views_added:
             self.add_view(Utils.classes.PersistentView())
+            self.add_view(Utils.classes.PersistentView2())
             self.persistent_views_added = True
 
         print(f'{colours.OKCYAN}~~~~~~~~~~~~~')
