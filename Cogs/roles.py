@@ -42,27 +42,45 @@ class Roles(commands.Cog):
                       usage='roles',
                       cls=Command,
                       access=0)
-    async def ping(self, context):
+    async def roles(self, context):
         client = self.client
 
         embed = discord.Embed(
-            title='React 2',
-            description=f'here',
+            title='Roles',
+            description=f'React to toggle notifications for the following:\n\n🦜 - Sea of Thieves\n☠ - Elder Scrolls Online',
             colour=client.config['embed']['colour']
         )
-        await context.send(embed=embed, view=PersistentView())
+        message = await context.send(embed=embed)
+
+        await message.add_reaction("🦜")
+        await message.add_reaction("☠")
 
     @commands.command(name='roles2',
                       description='roles2',
                       usage='roles2',
                       cls=Command,
                       access=0)
-    async def ping(self, context):
+    async def roles2(self, context):
         client = self.client
 
         embed = discord.Embed(
-            title='React 3',
-            description=f'here',
+            title='Roles',
+            description=f'Press the below buttons to toggle notifications for the following:\n\n- Sea of Thieves\n- Elder Scrolls Online',
+            colour=client.config['embed']['colour']
+        )
+        await context.send(embed=embed, view=PersistentView())
+
+    @commands.command(name='roles3',
+                      description='roles3',
+                      usage='roles3',
+                      cls=Command,
+                      access=0)
+    async def roles3(self, context):
+        client = self.client
+
+        embed = discord.Embed(
+            title='Roles',
+            description=f'Select the options from the dropdown to toggle notifications for the following:\n\n- Sea of Thieves\n- Elder Scrolls Online',
             colour=client.config['embed']['colour']
         )
         await context.send(embed=embed, view=PersistentView2())

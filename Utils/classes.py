@@ -83,3 +83,21 @@ class PersistentView2(discord.ui.View):
         super().__init__(timeout=None)
 
         self.add_item(Dropdown())
+
+
+class PersistentView3(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="Accept Rules", style=discord.ButtonStyle.green, custom_id='button:rules')
+    async def SoT(self, button: discord.ui.Button, interaction: discord.Interaction):
+        role = discord.utils.get(interaction.guild.roles, id=900724805702152254)
+        user = discord.utils.get(interaction.guild.members, id=interaction.user.id)
+
+        if role in user.roles:
+            message = 'You have already accepted the rules.'
+        else:
+            await user.add_roles(role)
+            message = 'You have accepted the rules, and the Swifter role has been added'
+
+        await interaction.response.send_message(message, ephemeral=True)
