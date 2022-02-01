@@ -1,9 +1,10 @@
+import asyncio
 import json
 
 import discord
 from discord.ext import commands
 
-from Utils.classes import Command, PersistentView, PersistentView2
+from Utils.classes import Command, RoleButtonsView
 
 
 class Roles(commands.Cog):
@@ -13,30 +14,6 @@ class Roles(commands.Cog):
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
 
-    @commands.Cog.listener()
-    async def on_raw_reaction_add(self, payload):
-        client = self.client
-
-        if payload.message_id == client.bot['messages']['roles']['message']:
-            channel = client.get_channel(client.bot['messages']['roles']['channel'])
-            user = payload.member
-
-            if payload.emoji.name in self.roles:
-                role = discord.utils.get(channel.guild.roles, id=self.roles[payload.emoji.name])
-                await user.add_roles(role)
-
-    @commands.Cog.listener()
-    async def on_raw_reaction_remove(self, payload):
-        client = self.client
-
-        if payload.message_id == client.bot['messages']['roles']['message']:
-            channel = client.get_channel(client.bot['messages']['roles']['channel'])
-            user = discord.utils.get(channel.guild.members, id=payload.user_id)
-
-            if payload.emoji.name in self.roles:
-                role = discord.utils.get(channel.guild.roles, id=self.roles[payload.emoji.name])
-                await user.remove_roles(role)
-
     @commands.command(name='roles',
                       description='roles',
                       usage='roles',
@@ -45,45 +22,37 @@ class Roles(commands.Cog):
     async def roles(self, context):
         client = self.client
 
+        string = ""
+        for role in self.roles["reaction"]:
+            string += f'\n- {self.roles["reaction"][role]["name"]}'
+
         embed = discord.Embed(
             title='Roles',
-            description=f'React to toggle notifications for the following:\n\n🦜 - Sea of Thieves\n☠ - Elder Scrolls Online',
+            description=f'Press the below buttons to get roles for the following:\n{string}',
             colour=client.config['embed']['colour']
         )
-        message = await context.send(embed=embed)
+        await context.send(embed=embed, view=RoleButtonsView())
+        await asyncio.sleep(0.05)
+        await context.message.delete()
 
-        await message.add_reaction("🦜")
-        await message.add_reaction("☠")
-
-    @commands.command(name='roles2',
-                      description='roles2',
-                      usage='roles2',
-                      cls=Command,
-                      access=0)
-    async def roles2(self, context):
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
         client = self.client
 
+        channel = discord.utils.get(member.guild.channels, id=client.bot["channels"]["welcome"])
         embed = discord.Embed(
-            title='Roles',
-            description=f'Press the below buttons to toggle notifications for the following:\n\n- Sea of Thieves\n- Elder Scrolls Online',
+            title=f'Welcome to the server {member.name}!',
+            description=f'Please make sure to read <#{client.bot["channels"]["rules"]}>!',
             colour=client.config['embed']['colour']
         )
-        await context.send(embed=embed, view=PersistentView())
+        embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
 
-    @commands.command(name='roles3',
-                      description='roles3',
-                      usage='roles3',
-                      cls=Command,
-                      access=0)
-    async def roles3(self, context):
-        client = self.client
+        embed.set_thumbnail(url=member.avatar.url)
+        await channel.send(member.mention, embed=embed)
 
-        embed = discord.Embed(
-            title='Roles',
-            description=f'Select the options from the dropdown to toggle notifications for the following:\n\n- Sea of Thieves\n- Elder Scrolls Online',
-            colour=client.config['embed']['colour']
-        )
-        await context.send(embed=embed, view=PersistentView2())
+        role = discord.utils.get(member.guild.roles, id=self.roles["swifter"])
+        await asyncio.sleep(60*10)
+        await member.add_roles(role)
 
 
 def setup(client):
