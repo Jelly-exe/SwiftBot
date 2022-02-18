@@ -14,6 +14,29 @@ class Roles(commands.Cog):
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
 
+    @commands.command(name='rolecount',
+                      description='rolecount',
+                      usage='rolecount',
+                      cls=Command,
+                      access=0)
+    async def rolecount(self, context):
+        client = self.client
+
+        string = ""
+        for key in self.roles["reaction"]:
+            for role in self.roles["reaction"][key]:
+                activeRole = discord.utils.get(context.guild.roles, id=int(self.roles["reaction"][key][role]["role"]))
+                string += f'{self.roles["reaction"][key][role]["name"]} - {len(activeRole.members)}\n'
+
+        embed = discord.Embed(
+            title="Reaction Role Member Counts",
+            description=string,
+            colour=client.config['embed']['colour']
+        )
+
+        embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
+        await context.send(embed=embed)
+
     @commands.is_owner()
     @commands.command(name='roles',
                       description='roles',
@@ -59,7 +82,7 @@ class Roles(commands.Cog):
         # await channel.send(member.mention, embed=embed)
 
         role = discord.utils.get(member.guild.roles, id=self.roles["swifter"])
-        await asyncio.sleep(60*10)
+        await asyncio.sleep(60 * 10)
         await member.add_roles(role)
 
 
