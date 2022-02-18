@@ -14,6 +14,7 @@ class Roles(commands.Cog):
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
 
+    @commands.is_owner()
     @commands.command(name='roles',
                       description='roles',
                       usage='roles',
@@ -22,16 +23,22 @@ class Roles(commands.Cog):
     async def roles(self, context):
         client = self.client
 
-        string = ""
-        for role in self.roles["reaction"]:
-            string += f'\n- {self.roles["reaction"][role]["name"]}'
+        for key in self.roles["reaction"]:
+            string = ""
+            for role in self.roles["reaction"][key]:
+                if "display" in self.roles["reaction"][key][role]:
+                    string += f'\n• {self.roles["reaction"][key][role]["display"]}'
+                else:
+                    string += f'\n• **{self.roles["reaction"][key][role]["name"]}**'
 
-        embed = discord.Embed(
-            title='Roles',
-            description=f'Press the below buttons to get roles for the following:\n{string}',
-            colour=client.config['embed']['colour']
-        )
-        await context.send(embed=embed, view=RoleButtonsView())
+            embed = discord.Embed(
+                title=self.roles["reactionContent"][key]["title"],
+                description=self.roles["reactionContent"][key]["content"].replace("<roles>", string),
+                colour=client.config['embed']['colour']
+            )
+            # embed.set_image(url=self.roles["reactionContent"][key]["image"])
+            await context.send(embed=embed, view=RoleButtonsView(key))
+
         await asyncio.sleep(0.05)
         await context.message.delete()
 
@@ -39,16 +46,16 @@ class Roles(commands.Cog):
     async def on_member_join(self, member):
         client = self.client
 
-        channel = discord.utils.get(member.guild.channels, id=client.bot["channels"]["welcome"])
-        embed = discord.Embed(
-            title=f'Welcome to the server {member.name}!',
-            description=f'Please make sure to read <#{client.bot["channels"]["rules"]}>!',
-            colour=client.config['embed']['colour']
-        )
-        embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
-
-        embed.set_thumbnail(url=member.avatar.url)
-        await channel.send(member.mention, embed=embed)
+        # channel = discord.utils.get(member.guild.channels, id=client.bot["channels"]["welcome"])
+        # embed = discord.Embed(
+        #     title=f'Welcome to the server {member.name}!',
+        #     description=f'Please make sure to read <#{client.bot["channels"]["rules"]}>!',
+        #     colour=client.config['embed']['colour']
+        # )
+        # embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
+        #
+        # embed.set_thumbnail(url=member.avatar.url)
+        # await channel.send(member.mention, embed=embed)
 
         role = discord.utils.get(member.guild.roles, id=self.roles["swifter"])
         await asyncio.sleep(60*10)

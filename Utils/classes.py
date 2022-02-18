@@ -21,16 +21,17 @@ class NoPermission(commands.CheckFailure):
 
 
 class RoleButton(discord.ui.Button):
-    def __init__(self, label: str, key: str):
+    def __init__(self, label: str, key: str, key2):
         super().__init__(style=discord.ButtonStyle.primary, label=label, custom_id=key)
 
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
 
         self.key = key
+        self.key2 = key2
 
     async def callback(self, interaction: discord.Interaction):
-        role = discord.utils.get(interaction.guild.roles, id=int(self.roles["reaction"][self.key]["role"]))
+        role = discord.utils.get(interaction.guild.roles, id=int(self.roles["reaction"][self.key2][self.key]["role"]))
         user = discord.utils.get(interaction.guild.members, id=interaction.user.id)
         thing = None
         if role in user.roles:
@@ -44,11 +45,11 @@ class RoleButton(discord.ui.Button):
 
 
 class RoleButtonsView(discord.ui.View):
-    def __init__(self):
+    def __init__(self, key):
         super().__init__(timeout=None)
 
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
 
-        for role in self.roles["reaction"]:
-            self.add_item(RoleButton(self.roles["reaction"][role]["name"], role))
+        for role in self.roles["reaction"][key]:
+            self.add_item(RoleButton(self.roles["reaction"][key][role]["name"], role, key))

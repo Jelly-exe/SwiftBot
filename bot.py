@@ -1,3 +1,4 @@
+import json
 import os
 
 import yaml
@@ -15,6 +16,9 @@ from Utils.classes import NoPermission
 class SwiftBot(commands.Bot):
     def __init__(self):
         self.step = 0
+
+        with open("roles.json", encoding='utf8') as file:
+            self.roles = json.load(file)
 
         print(f'{colours.OKGREEN}{self._displayStep()}. Setting allowed_mentions')
         allowed_mentions = discord.AllowedMentions(roles=False, everyone=False, users=True)
@@ -78,7 +82,8 @@ class SwiftBot(commands.Bot):
 
     async def on_ready(self):
         if not self.persistent_views_added:
-            self.add_view(Utils.classes.RoleButtonsView())
+            for key in self.roles["reaction"]:
+                self.add_view(Utils.classes.RoleButtonsView(key))
             self.persistent_views_added = True
 
         print(f'{colours.OKCYAN}~~~~~~~~~~~~~')

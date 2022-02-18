@@ -14,6 +14,7 @@ class Rules(commands.Cog):
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
 
+    @commands.is_owner()
     @commands.command(name='rules',
                       description='rules',
                       usage='rules',
@@ -24,7 +25,35 @@ class Rules(commands.Cog):
 
         embed = discord.Embed(
             title='Rules',
-            description=f'<Insert rules here>',
+            description=f'''1. Avoid Spam at all cost. (This includes)
+                              • All forms of Zalgo, Emoticon or One Line spam.
+                              • Image/File/Link spam.
+                              • Voice spam (On Voice channels)
+                              • DMs with other users of the server.
+                        
+                        2. Post containing self harm, violence or pornographic material is not allowed under any circumstances. This includes mild or suggestive content.
+                        
+                        3. Respect others in both DMs or chat within the server. Attacking other members of chat for their ethnicity/religion/beliefs is not welcomed here.
+                        
+                        4. Avoid pestering mods with messages, mods will get back to you as soon as possible and review any proof of attacks. (We have logs)
+                        
+                        5. Hate speech is not tolerable and will lead to a ban no matter the context.
+                        
+                        6. Respect Chim's privacy.
+                        
+                        7. Do not use this server in order to promote your or other's streams or content. Sharing yours or others videos is ok, but avoid overdoing it. (Music/Meme/Trending video sharing is ok)
+                        
+                        8. Avoid posting of any topic related to illegal substances (e.g. Weed, Cocaine, Tobacco, etc.). Beer is allowed as long as you don't encourage others to do it, some members are under 18/21 and drinking might not be allowed in their regions.
+                        
+                        9. Do not post content of controversial/political topic in any way shape or form. This is a free speech server but we want to avoid any confrontation between users.
+                        
+                        10. You must be 13 or older in order to be a part of this community.
+                        
+                        
+                        **Failing to follow these rules may result on a warning, penalty or ban.**
+                        ---------------------
+                        To unlock access to my Patreon Vanilla Minecraft server you must sign up at the Pro Tier or above on my Patreon Page: http://www.patreon.com/ChimneySwift11
+                        For access to the Attack of the B-Team Patreon Server you'll need to sign up at the Pro+ Tier or above.''',
             colour=client.config['embed']['colour']
         )
         await context.send(embed=embed)
