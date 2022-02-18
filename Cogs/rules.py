@@ -49,6 +49,7 @@ class Rules(commands.Cog):
                         **Failing to follow these rules may result on a warning, penalty or ban.**''',
             colour=client.config['embed']['colour']
         )
+        embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
         embed2 = discord.Embed(
             title="Information",
             description='''
@@ -66,6 +67,7 @@ class Rules(commands.Cog):
                         • [Instagram](http://www.instagram.com/PleaseStandByPhotography)''',
             colour=client.config['embed']['colour']
         )
+        embed2.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
         await context.send(embed=embed)
         await context.send(embed=embed2)
         await asyncio.sleep(0.05)

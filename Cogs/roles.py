@@ -36,6 +36,7 @@ class Roles(commands.Cog):
                 description=self.roles["reactionContent"][key]["content"].replace("<roles>", string),
                 colour=client.config['embed']['colour']
             )
+            embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
             # embed.set_image(url=self.roles["reactionContent"][key]["image"])
             await context.send(embed=embed, view=RoleButtonsView(key))
 
