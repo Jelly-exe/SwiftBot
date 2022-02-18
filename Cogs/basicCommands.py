@@ -20,7 +20,6 @@ class BasicCommands(commands.Cog):
             description=f'🏓 Pong! Latency: `{round(client.latency * 1000)}ms`',
             colour=client.config['embed']['colour']
         )
-        embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
         await context.send(embed=embed)
 
 
