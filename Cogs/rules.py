@@ -25,11 +25,7 @@ class Rules(commands.Cog):
 
         embed = discord.Embed(
             title='Rules',
-            description=f'''1. Avoid Spam at all cost. (This includes)
-                              • All forms of Zalgo, Emoticon or One Line spam.
-                              • Image/File/Link spam.
-                              • Voice spam (On Voice channels)
-                              • DMs with other users of the server.
+            description=f'''1. Avoid Spam at all cost. (This includes)\n    • All forms of Zalgo, Emoticon or One Line spam.\n    • Image/File/Link spam.\n    • Voice spam (On Voice channels)\n    • DMs with other users of the server.
                         
                         2. Post containing self harm, violence or pornographic material is not allowed under any circumstances. This includes mild or suggestive content.
                         
@@ -50,13 +46,28 @@ class Rules(commands.Cog):
                         10. You must be 13 or older in order to be a part of this community.
                         
                         
-                        **Failing to follow these rules may result on a warning, penalty or ban.**
+                        **Failing to follow these rules may result on a warning, penalty or ban.**''',
+            colour=client.config['embed']['colour']
+        )
+        embed2 = discord.Embed(
+            title="Information",
+            description='''
+                        To unlock access to my Patreon Vanilla Minecraft server you must sign up at the Pro Tier or above on my Patreon Page.
+                        
+                        For access to the Attack of the B-Team Patreon Server you'll need to sign up at the Pro+ Tier or above.
+            
                         ---------------------
-                        To unlock access to my Patreon Vanilla Minecraft server you must sign up at the Pro Tier or above on my Patreon Page: http://www.patreon.com/ChimneySwift11
-                        For access to the Attack of the B-Team Patreon Server you'll need to sign up at the Pro+ Tier or above.''',
+                        
+                        Links:
+                        • [Patreon](http://www.patreon.com/ChimneySwift11)
+                        • [YouTube](http://www.youtube.com/ChimneySwift11)
+                        • [Twitter](http://www.twitter.com/ChimneySwift11)
+                        • [Facebook](http://www.facebook.com/ChimneySwift11)
+                        • [Instagram](http://www.instagram.com/PleaseStandByPhotography)''',
             colour=client.config['embed']['colour']
         )
         await context.send(embed=embed)
+        await context.send(embed=embed2)
         await asyncio.sleep(0.05)
         await context.message.delete()
 
