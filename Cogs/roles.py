@@ -14,6 +14,20 @@ class Roles(commands.Cog):
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
 
+    @commands.is_owner()
+    @commands.command(name='rolesbanner',
+                      description='rolesbanner',
+                      usage='rolesbanner',
+                      cls=Command,
+                      access=0)
+    async def rolesbanner(self, context):
+        client = self.client
+
+        file = discord.File(fp=f'Assets/Choose_Your_Roles.png')
+        await context.send(file=file)
+        await asyncio.sleep(0.05)
+        await context.message.delete()
+
     @commands.command(name='rolecount',
                       description='rolecount',
                       usage='rolecount',
