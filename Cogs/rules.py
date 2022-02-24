@@ -77,7 +77,7 @@ class Rules(commands.Cog):
 
 <:_10:946199264252547172> You must be 13 years or older to be a part of this Discord community.
                         
-**Failing to follow these rules may result in a warning, penalty or ban.**''',
+**Failing to follow these rules may result in a warning, penalty, or ban.**''',
             colour=client.config['embed']['colour']
         )
         embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
