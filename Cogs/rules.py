@@ -77,7 +77,7 @@ class Rules(commands.Cog):
 
 <:_10:946199264252547172> You must be 13 years or older to be a part of this Discord community.
                         
-**Failing to follow these rules may result on a warning, penalty or ban.**''',
+**Failing to follow these rules may result in a warning, penalty or ban.**''',
             colour=client.config['embed']['colour']
         )
         embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])
@@ -96,20 +96,20 @@ class Rules(commands.Cog):
         embed = discord.Embed(
             title="Information",
             description='''
-                        To unlock access to my Patreon Vanilla Minecraft server, you must sign up at the Pro Tier or above on my Patreon Page.
+To unlock access to my Patreon Vanilla Minecraft server, you must sign up at the Pro Tier or above on my Patreon Page.
 
-                        For access to the Attack of the B-Team Patreon Server you'll need to sign up at the Pro+ Tier or above.
+For access to the Attack of the B-Team Patreon Server you'll need to sign up at the Pro+ Tier or above.
 
-                        ---------------------
-                        
-                        Links:
-                        • [Patreon](http://www.patreon.com/ChimneySwift11)
-                        • [Twitch](https://www.twitch.tv/ChimneySwift11)
-                        • [YouTube](http://www.youtube.com/ChimneySwift11)
-                        • [Twitter](http://www.twitter.com/ChimneySwift11)
-                        • [Facebook](http://www.facebook.com/ChimneySwift11)
-                        • [Instagram](http://www.instagram.com/PleaseStandByPhotography)
-                        • [Oooh](https://unlock.oooh.tv/154)''',
+---------------------
+
+Links:
+• [Patreon](http://www.patreon.com/ChimneySwift11)
+• [Twitch](https://www.twitch.tv/ChimneySwift11)
+• [YouTube](http://www.youtube.com/ChimneySwift11)
+• [Twitter](http://www.twitter.com/ChimneySwift11)
+• [Facebook](http://www.facebook.com/ChimneySwift11)
+• [Instagram](http://www.instagram.com/PleaseStandByPhotography)
+• [Oooh](https://unlock.oooh.tv/154)''',
             colour=client.config['embed']['colour']
         )
         embed.set_footer(text=client.config['embed']['footer']['text'], icon_url=client.config['embed']['footer']['url'])

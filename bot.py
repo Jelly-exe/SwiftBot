@@ -40,7 +40,7 @@ class SwiftBot(commands.Bot):
         self.config = yaml.load(open("config.yml", "r"), Loader=yaml.FullLoader)
 
         print(f'{colours.OKGREEN}{self._displayStep()}. Initializing the bot')
-        super().__init__(command_prefix=self.config["prefix"],
+        super().__init__(command_prefix=self._getPrefix,
                          help_command=None,
                          owner_id=278548721778688010,
                          activity=activity,
@@ -58,6 +58,12 @@ class SwiftBot(commands.Bot):
 
         self._loadCogs()
 
+    def _getPrefix(self, client, message):
+        if self.bot["dev"]:
+            return self.config["prefix"] * 2
+
+        return self.config["prefix"]
+
     def _loadCogs(self):
         for i in os.listdir('Cogs'):
             if i.endswith('.py'):
@@ -66,12 +72,6 @@ class SwiftBot(commands.Bot):
                     print(f'{colours.OKGREEN}{self._displayStep()}. Loading {i[:-3]}.py')
                 except Exception as error:
                     print(f'{colours.FAIL}{self._displayStep()}. {i[:-3]}.py cannot be loaded. [{error}]')
-
-    def _getPrefix(self, client, message):
-        if self.bot["dev"]:
-            return self.cache.getGuildConfig(message.guild.id)["prefix"] * 2
-
-        return self.cache.getGuildConfig(message.guild.id)["prefix"]
 
     def getToken(self):
         return self.token
