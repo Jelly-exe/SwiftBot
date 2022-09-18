@@ -4,6 +4,7 @@ import os
 import yaml
 
 import discord
+from discord import app_commands
 from discord.ext import commands
 
 import Utils.classes
@@ -16,6 +17,8 @@ from Utils.classes import NoPermission
 class SwiftBot(commands.Bot):
     def __init__(self):
         self.step = 0
+        self.initial_extensions = []
+        self.testingGuild = discord.Object(id=887781128046538812)
 
         with open("roles.json", encoding='utf8') as file:
             self.roles = json.load(file)
@@ -34,6 +37,7 @@ class SwiftBot(commands.Bot):
         intents.members = True
         intents.guilds = True
         intents.presences = True
+        intents.message_content = True
 
         print(f'{colours.OKGREEN}{self._displayStep()}. Reading configs\'s')
         self.bot = yaml.load(open("bot.yml", "r"), Loader=yaml.FullLoader)
@@ -48,6 +52,7 @@ class SwiftBot(commands.Bot):
                          allowed_mentions=allowed_mentions,
                          description=description,
                          case_insensitive=True)
+
         self.persistent_views_added = False
 
         print(f'{colours.OKGREEN}{self._displayStep()}. Setting the boot time')
@@ -56,7 +61,14 @@ class SwiftBot(commands.Bot):
         print(f'{colours.OKGREEN}{self._displayStep()}. Setting the token')
         self.token = self.bot["token"] if not self.bot['dev'] else self.bot["dev_token"]
 
-        self._loadCogs()
+    async def setup_hook(self):
+        await self._getCogs()
+        for ext in self.initial_extensions:
+            try:
+                await self.load_extension(ext)
+                print(f'{colours.OKGREEN}{self._displayStep()}. Loading {ext}')
+            except Exception as error:
+                print(f'{colours.FAIL}{self._displayStep()}. {ext} cannot be loaded. [{error}]')
 
     def _getPrefix(self, client, message):
         if self.bot["dev"]:
@@ -64,14 +76,10 @@ class SwiftBot(commands.Bot):
 
         return self.config["prefix"]
 
-    def _loadCogs(self):
+    async def _getCogs(self):
         for i in os.listdir('Cogs'):
             if i.endswith('.py'):
-                try:
-                    self.load_extension(f'Cogs.{i[:-3]}')
-                    print(f'{colours.OKGREEN}{self._displayStep()}. Loading {i[:-3]}.py')
-                except Exception as error:
-                    print(f'{colours.FAIL}{self._displayStep()}. {i[:-3]}.py cannot be loaded. [{error}]')
+                self.initial_extensions.append(f'Cogs.{i[:-3]}')
 
     def getToken(self):
         return self.token
@@ -85,6 +93,8 @@ class SwiftBot(commands.Bot):
             for key in self.roles["reaction"]:
                 self.add_view(Utils.classes.RoleButtonsView(key))
             self.persistent_views_added = True
+
+        await self.tree.sync(guild=self.testingGuild)
 
         print(f'{colours.OKCYAN}~~~~~~~~~~~~~')
         print(f'{colours.OKCYAN}Logged in as - ')

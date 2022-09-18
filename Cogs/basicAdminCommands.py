@@ -70,5 +70,5 @@ class BasicAdminCommands(commands.Cog):
         await message.add_reaction(reaction)
 
 
-def setup(client):
-    client.add_cog(BasicAdminCommands(client))
+async def setup(client):
+    await client.add_cog(BasicAdminCommands(client))

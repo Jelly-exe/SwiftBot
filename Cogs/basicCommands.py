@@ -23,5 +23,5 @@ class BasicCommands(commands.Cog):
         await context.send(embed=embed)
 
 
-def setup(client):
-    client.add_cog(BasicCommands(client))
+async def setup(client):
+    await client.add_cog(BasicCommands(client))

@@ -147,5 +147,5 @@ Links:
         await asyncio.sleep(0.05)
         await context.message.delete()
 
-def setup(client):
-    client.add_cog(Rules(client))
+async def setup(client):
+    await client.add_cog(Rules(client))

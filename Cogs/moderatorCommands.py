@@ -9,5 +9,5 @@ class ModeratorCommands(commands.Cog):
         self.client = client
 
 
-def setup(client):
-    client.add_cog(ModeratorCommands(client))
+async def setup(client):
+    await client.add_cog(ModeratorCommands(client))
